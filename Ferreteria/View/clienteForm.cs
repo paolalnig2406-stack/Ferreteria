@@ -55,9 +55,9 @@ namespace Ferreteria.View
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow fila = dgvClientes.Rows[e.RowIndex];
-                txtCodigo.Text = fila.Cells["Código"].Value.ToString();
-                txtDniRuc.Text = fila.Cells["DNI/RUC"].Value.ToString();
-                txtNombres.Text = fila.Cells["Nombres / Razón social"].Value.ToString();
+                txtCodigo.Text = fila.Cells["Código"].Value?.ToString();
+                txtDniRuc.Text = fila.Cells["DNI_RUC"].Value?.ToString();
+                txtNombres.Text = fila.Cells["razonSocial"].Value.ToString();
                 txtApellidos.Text = fila.Cells["Apellidos"].Value.ToString();
                 txtTelefono.Text = fila.Cells["Teléfono"].Value.ToString();
                 txtDireccion.Text = fila.Cells["Dirección"].Value.ToString();
@@ -68,7 +68,7 @@ namespace Ferreteria.View
         private void MostrarClientes()
         {
             // La orden SQL usando los nombres reales de tu tabla de la imagen 3
-            string query = "SELECT id_cliente AS [Código], dni_ruc AS [DNI/RUC], nombres AS [Nombres / Razón social], apellidos AS [Apellidos], telefono AS [Teléfono], direccion AS [Dirección], correo AS [Correo] FROM dbo.clientes";
+            string query = "SELECT id_cliente AS [Código], dni_ruc AS [DNI_RUC], nombres AS [razonSocial], apellidos AS [Apellidos], telefono AS [Teléfono], direccion AS [Dirección], correo AS [Correo], Activo FROM dbo.clientes";
 
             using (SqlConnection conexion = new SqlConnection(cadenaConexion))
             {
@@ -76,9 +76,9 @@ namespace Ferreteria.View
                 {
                     conexion.Open(); // Abrimos la base de datos
                     SqlDataAdapter adapter = new SqlDataAdapter(query, conexion);
-                    DataTable dt = new DataTable(); // Tabla virtual
+                    DataTable dt = new DataTable();
                     adapter.Fill(dt); // Llenamos la tabla virtual con los datos
-
+                    dgvClientes.AutoGenerateColumns = false;
                     dgvClientes.DataSource = dt; // Jala los datos directamente a tu dgvClientes
                 }
                 catch (Exception? ex)
@@ -87,7 +87,33 @@ namespace Ferreteria.View
                 }
             }
         }
+        private void dgvClientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvClientes.Columns[e.ColumnIndex].Name == "EsActivo")
+            {
+                string usuarioId = dgvClientes.Rows[e.RowIndex].Cells["Código"].Value.ToString();
+                bool nuevoEstado = !Convert.ToBoolean(dgvClientes.Rows[e.RowIndex].Cells["EsActivo"].Value);
+                string nombreUsuario = dgvClientes.Rows[e.RowIndex].Cells["razonSocial"].Value.ToString();
+                bool exito = ActualizarEstadoCliente(usuarioId, nuevoEstado);
 
+                if (exito)
+                {
+                    string mensaje = nuevoEstado ? "activada" : "desactivada";
+                    MessageBox.Show($"La cuenta de {nombreUsuario} ha sido {mensaje}.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    dgvClientes.Rows[e.RowIndex].Cells["EsActivo"].Value = nuevoEstado;
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo actualizar el estado en el servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    // Revertir el CheckBox visualmente si la base de datos falló
+                    dgvClientes.Rows[e.RowIndex].Cells["EsActivo"].Value = !nuevoEstado;
+                }
+            }
+
+
+
+        }
         private void clienteForm_Load(object sender, EventArgs e)
         {
             MostrarClientes();
@@ -202,7 +228,32 @@ namespace Ferreteria.View
                 }
             }
         }
+        private bool ActualizarEstadoCliente(string IdCliente, bool NuevoEstado)
+        {
+            int NuevoEstadoNumero = (int)Convert.ToInt16(NuevoEstado);
+            string query = "update  dbo.clientes set Activo=@NuevoEstado WHERE id_cliente = @id";
+            using (SqlConnection conexion = new SqlConnection(cadenaConexion))
+            {
+                try
+                {
+                    conexion.Open();
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@NuevoEstado", NuevoEstadoNumero);
+                        comando.Parameters.AddWithValue("@id", IdCliente);
 
+                        int filasAfectadas = comando.ExecuteNonQuery(); // Ejecuta el borrado
+                        return filasAfectadas > 0;
+
+                    }
+                }
+                catch (Exception? ex)
+                {
+                    MessageBox.Show("Error al eliminar el cliente: " + ex?.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            return false;
+        }
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             // 1. Validar que haya un código seleccionado
@@ -220,7 +271,7 @@ namespace Ferreteria.View
             if (resultado == DialogResult.Yes)
             {
                 // 3. Sentencia SQL para eliminar usando el Código (id_cliente)
-                string query = "DELETE FROM dbo.clientes WHERE id_cliente = @id";
+                string query = "update  dbo.clientes set  =0 WHERE id_cliente = @id";
 
                 using (SqlConnection conexion = new SqlConnection(cadenaConexion))
                 {
@@ -302,6 +353,7 @@ namespace Ferreteria.View
                 }
             }
         }
+
+
     }
 }
-

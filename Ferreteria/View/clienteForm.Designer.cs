@@ -48,11 +48,18 @@
             btnNuevo = new Button();
             btnGuardar = new Button();
             btnEditar = new Button();
-            btnEliminar = new Button();
             dgvClientes = new DataGridView();
             txtBuscar = new TextBox();
             btnBuscar = new Button();
             pictureBox1 = new PictureBox();
+            Código = new DataGridViewTextBoxColumn();
+            DNI_RUC = new DataGridViewTextBoxColumn();
+            razonSocial = new DataGridViewTextBoxColumn();
+            Apellidos = new DataGridViewTextBoxColumn();
+            Teléfono = new DataGridViewTextBoxColumn();
+            Dirección = new DataGridViewTextBoxColumn();
+            Correo = new DataGridViewTextBoxColumn();
+            EsActivo = new DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -259,33 +266,20 @@
             btnEditar.UseVisualStyleBackColor = false;
             btnEditar.Click += btnEditar_Click;
             // 
-            // btnEliminar
-            // 
-            btnEliminar.BackColor = Color.Crimson;
-            btnEliminar.FlatAppearance.BorderSize = 0;
-            btnEliminar.FlatStyle = FlatStyle.Flat;
-            btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEliminar.ForeColor = Color.White;
-            btnEliminar.Location = new Point(762, 195);
-            btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(100, 35);
-            btnEliminar.TabIndex = 19;
-            btnEliminar.Text = "Eliminar";
-            btnEliminar.UseVisualStyleBackColor = false;
-            btnEliminar.Click += btnEliminar_Click;
-            // 
             // dgvClientes
             // 
             dgvClientes.AllowUserToAddRows = false;
             dgvClientes.AllowUserToDeleteRows = false;
             dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvClientes.Columns.AddRange(new DataGridViewColumn[] { Código, DNI_RUC, razonSocial, Apellidos, Teléfono, Dirección, Correo, EsActivo });
             dgvClientes.Location = new Point(12, 247);
             dgvClientes.Name = "dgvClientes";
             dgvClientes.ReadOnly = true;
             dgvClientes.Size = new Size(851, 202);
             dgvClientes.TabIndex = 20;
             dgvClientes.CellClick += dgvClientes_CellClick;
+            dgvClientes.CellContentClick += dgvClientes_CellContentClick;
             // 
             // txtBuscar
             // 
@@ -317,6 +311,64 @@
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
             // 
+            // Código
+            // 
+            Código.DataPropertyName = "Código";
+            Código.HeaderText = "Código";
+            Código.Name = "Código";
+            Código.ReadOnly = true;
+            // 
+            // DNI_RUC
+            // 
+            DNI_RUC.DataPropertyName = "DNI_RUC";
+            DNI_RUC.HeaderText = "DNI/RUC";
+            DNI_RUC.Name = "DNI_RUC";
+            DNI_RUC.ReadOnly = true;
+            // 
+            // razonSocial
+            // 
+            razonSocial.DataPropertyName = "razonSocial";
+            razonSocial.HeaderText = "Nombres / Razón social";
+            razonSocial.Name = "razonSocial";
+            razonSocial.ReadOnly = true;
+            // 
+            // Apellidos
+            // 
+            Apellidos.DataPropertyName = "Apellidos";
+            Apellidos.HeaderText = "Apellidos";
+            Apellidos.Name = "Apellidos";
+            Apellidos.ReadOnly = true;
+            // 
+            // Teléfono
+            // 
+            Teléfono.DataPropertyName = "Teléfono";
+            Teléfono.HeaderText = "Teléfono";
+            Teléfono.Name = "Teléfono";
+            Teléfono.ReadOnly = true;
+            // 
+            // Dirección
+            // 
+            Dirección.DataPropertyName = "Dirección";
+            Dirección.HeaderText = "Dirección";
+            Dirección.Name = "Dirección";
+            Dirección.ReadOnly = true;
+            // 
+            // Correo
+            // 
+            Correo.DataPropertyName = "Correo";
+            Correo.HeaderText = "Correo";
+            Correo.Name = "Correo";
+            Correo.ReadOnly = true;
+            // 
+            // EsActivo
+            // 
+            EsActivo.DataPropertyName = "Activo";
+            EsActivo.HeaderText = "¿Cuenta Activa?";
+            EsActivo.Name = "EsActivo";
+            EsActivo.ReadOnly = true;
+            EsActivo.Resizable = DataGridViewTriState.True;
+            EsActivo.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
             // clienteForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -327,7 +379,6 @@
             Controls.Add(btnBuscar);
             Controls.Add(txtBuscar);
             Controls.Add(dgvClientes);
-            Controls.Add(btnEliminar);
             Controls.Add(btnEditar);
             Controls.Add(btnGuardar);
             Controls.Add(btnNuevo);
@@ -377,10 +428,17 @@
         private Button btnNuevo;
         private Button btnGuardar;
         private Button btnEditar;
-        private Button btnEliminar;
         private DataGridView dgvClientes;
         private TextBox txtBuscar;
         private Button btnBuscar;
         private PictureBox pictureBox1;
+        private DataGridViewTextBoxColumn Código;
+        private DataGridViewTextBoxColumn DNI_RUC;
+        private DataGridViewTextBoxColumn razonSocial;
+        private DataGridViewTextBoxColumn Apellidos;
+        private DataGridViewTextBoxColumn Teléfono;
+        private DataGridViewTextBoxColumn Dirección;
+        private DataGridViewTextBoxColumn Correo;
+        private DataGridViewCheckBoxColumn EsActivo;
     }
 }

@@ -95,6 +95,7 @@
             button12.TextAlign = ContentAlignment.MiddleLeft;
             button12.TextImageRelation = TextImageRelation.ImageBeforeText;
             button12.UseVisualStyleBackColor = true;
+            button12.Click += button12_Click_1;
             // 
             // imageList1
             // 
@@ -152,6 +153,7 @@
             button10.TextAlign = ContentAlignment.MiddleLeft;
             button10.TextImageRelation = TextImageRelation.ImageBeforeText;
             button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
             // 
             // button9
             // 
@@ -206,10 +208,11 @@
             button7.Name = "button7";
             button7.Size = new Size(250, 45);
             button7.TabIndex = 6;
-            button7.Text = "  Ventas";
+            button7.Text = "Productos2";
             button7.TextAlign = ContentAlignment.MiddleLeft;
             button7.TextImageRelation = TextImageRelation.ImageBeforeText;
             button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click_1;
             // 
             // button6
             // 
@@ -269,6 +272,7 @@
             button4.TextAlign = ContentAlignment.MiddleLeft;
             button4.TextImageRelation = TextImageRelation.ImageBeforeText;
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // button3
             // 
@@ -288,6 +292,7 @@
             button3.TextAlign = ContentAlignment.MiddleLeft;
             button3.TextImageRelation = TextImageRelation.ImageBeforeText;
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click_1;
             // 
             // button2
             // 
@@ -405,9 +410,9 @@
             button14.ImageAlign = ContentAlignment.MiddleLeft;
             button14.ImageIndex = 12;
             button14.ImageList = imageList1;
-            button14.Location = new Point(1067, 3);
+            button14.Location = new Point(1020, 3);
             button14.Name = "button14";
-            button14.Size = new Size(115, 45);
+            button14.Size = new Size(162, 45);
             button14.TabIndex = 12;
             button14.Text = "Admin";
             button14.TextAlign = ContentAlignment.MiddleLeft;

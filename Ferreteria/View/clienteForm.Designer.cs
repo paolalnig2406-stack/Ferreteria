@@ -39,7 +39,6 @@
             label8 = new Label();
             label9 = new Label();
             txtCodigo = new TextBox();
-            txtDniRuc = new TextBox();
             txtNombres = new TextBox();
             txtApellidos = new TextBox();
             txtTelefono = new TextBox();
@@ -49,9 +48,6 @@
             btnGuardar = new Button();
             btnEditar = new Button();
             dgvClientes = new DataGridView();
-            txtBuscar = new TextBox();
-            btnBuscar = new Button();
-            pictureBox1 = new PictureBox();
             Código = new DataGridViewTextBoxColumn();
             DNI_RUC = new DataGridViewTextBoxColumn();
             razonSocial = new DataGridViewTextBoxColumn();
@@ -60,6 +56,10 @@
             Dirección = new DataGridViewTextBoxColumn();
             Correo = new DataGridViewTextBoxColumn();
             EsActivo = new DataGridViewCheckBoxColumn();
+            txtBuscar = new TextBox();
+            btnBuscar = new Button();
+            pictureBox1 = new PictureBox();
+            txtDniRuc = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -165,15 +165,6 @@
             txtCodigo.ReadOnly = true;
             txtCodigo.Size = new Size(140, 25);
             txtCodigo.TabIndex = 9;
-            // 
-            // txtDniRuc
-            // 
-            txtDniRuc.BorderStyle = BorderStyle.FixedSingle;
-            txtDniRuc.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtDniRuc.Location = new Point(102, 90);
-            txtDniRuc.Name = "txtDniRuc";
-            txtDniRuc.Size = new Size(258, 25);
-            txtDniRuc.TabIndex = 10;
             // 
             // txtNombres
             // 
@@ -281,36 +272,6 @@
             dgvClientes.CellClick += dgvClientes_CellClick;
             dgvClientes.CellContentClick += dgvClientes_CellContentClick;
             // 
-            // txtBuscar
-            // 
-            txtBuscar.Location = new Point(449, 21);
-            txtBuscar.Name = "txtBuscar";
-            txtBuscar.Size = new Size(259, 23);
-            txtBuscar.TabIndex = 21;
-            txtBuscar.TextChanged += txtBuscar_TextChanged;
-            // 
-            // btnBuscar
-            // 
-            btnBuscar.BackgroundImage = (Image)resources.GetObject("btnBuscar.BackgroundImage");
-            btnBuscar.BackgroundImageLayout = ImageLayout.Zoom;
-            btnBuscar.Location = new Point(705, 16);
-            btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(39, 30);
-            btnBuscar.TabIndex = 22;
-            btnBuscar.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnBuscar.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(11, 5);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(45, 39);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 23;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
-            // 
             // Código
             // 
             Código.DataPropertyName = "Código";
@@ -369,12 +330,52 @@
             EsActivo.Resizable = DataGridViewTriState.True;
             EsActivo.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
+            // txtBuscar
+            // 
+            txtBuscar.Location = new Point(449, 21);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.Size = new Size(259, 23);
+            txtBuscar.TabIndex = 21;
+            txtBuscar.TextChanged += txtBuscar_TextChanged;
+            // 
+            // btnBuscar
+            // 
+            btnBuscar.BackgroundImage = (Image)resources.GetObject("btnBuscar.BackgroundImage");
+            btnBuscar.BackgroundImageLayout = ImageLayout.Zoom;
+            btnBuscar.Location = new Point(705, 16);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(39, 30);
+            btnBuscar.TabIndex = 22;
+            btnBuscar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnBuscar.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(11, 5);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(45, 39);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 23;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
+            // txtDniRuc
+            // 
+            txtDniRuc.FormattingEnabled = true;
+            txtDniRuc.Location = new Point(102, 90);
+            txtDniRuc.Name = "txtDniRuc";
+            txtDniRuc.Size = new Size(121, 23);
+            txtDniRuc.TabIndex = 24;
+            txtDniRuc.SelectedIndexChanged += txtDniRuc_SelectedIndexChanged;
+            // 
             // clienteForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(884, 461);
+            ClientSize = new Size(879, 461);
+            Controls.Add(txtDniRuc);
             Controls.Add(pictureBox1);
             Controls.Add(btnBuscar);
             Controls.Add(txtBuscar);
@@ -387,7 +388,6 @@
             Controls.Add(txtTelefono);
             Controls.Add(txtApellidos);
             Controls.Add(txtNombres);
-            Controls.Add(txtDniRuc);
             Controls.Add(txtCodigo);
             Controls.Add(label9);
             Controls.Add(label8);
@@ -419,7 +419,6 @@
         private Label label8;
         private Label label9;
         private TextBox txtCodigo;
-        private TextBox txtDniRuc;
         private TextBox txtNombres;
         private TextBox txtApellidos;
         private TextBox txtTelefono;
@@ -440,5 +439,6 @@
         private DataGridViewTextBoxColumn Dirección;
         private DataGridViewTextBoxColumn Correo;
         private DataGridViewCheckBoxColumn EsActivo;
+        private ComboBox txtDniRuc;
     }
 }

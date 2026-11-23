@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProveedoresForm));
-            txtRuc = new TextBox();
             txtRazonSocial = new TextBox();
             txtContacto = new TextBox();
             txtTelefono = new TextBox();
@@ -47,23 +46,17 @@
             label5 = new Label();
             label6 = new Label();
             label7 = new Label();
-            dgvClientes = new DataGridView();
+            dgvProveedores = new DataGridView();
             btnEliminar = new Button();
             btnEditar = new Button();
             btnGuardar = new Button();
             btnNuevo = new Button();
+            cmbEstado = new ComboBox();
+            label8 = new Label();
+            cmbRuc = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProveedores).BeginInit();
             SuspendLayout();
-            // 
-            // txtRuc
-            // 
-            txtRuc.BorderStyle = BorderStyle.FixedSingle;
-            txtRuc.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtRuc.Location = new Point(133, 101);
-            txtRuc.Name = "txtRuc";
-            txtRuc.Size = new Size(258, 25);
-            txtRuc.TabIndex = 11;
             // 
             // txtRazonSocial
             // 
@@ -120,6 +113,7 @@
             btnBuscar.TabIndex = 24;
             btnBuscar.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // textBox4
             // 
@@ -127,6 +121,7 @@
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(259, 23);
             textBox4.TabIndex = 23;
+            textBox4.TextChanged += textBox4_TextChanged;
             // 
             // txtCodigo
             // 
@@ -138,6 +133,7 @@
             txtCodigo.ReadOnly = true;
             txtCodigo.Size = new Size(140, 25);
             txtCodigo.TabIndex = 26;
+            txtCodigo.TextChanged += txtCodigo_TextChanged;
             // 
             // label2
             // 
@@ -231,17 +227,17 @@
             label7.TabIndex = 34;
             label7.Text = "Correo:";
             // 
-            // dgvClientes
+            // dgvProveedores
             // 
-            dgvClientes.AllowUserToAddRows = false;
-            dgvClientes.AllowUserToDeleteRows = false;
-            dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvClientes.Location = new Point(12, 281);
-            dgvClientes.Name = "dgvClientes";
-            dgvClientes.ReadOnly = true;
-            dgvClientes.Size = new Size(851, 168);
-            dgvClientes.TabIndex = 35;
+            dgvProveedores.AllowUserToAddRows = false;
+            dgvProveedores.AllowUserToDeleteRows = false;
+            dgvProveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProveedores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProveedores.Location = new Point(12, 281);
+            dgvProveedores.Name = "dgvProveedores";
+            dgvProveedores.ReadOnly = true;
+            dgvProveedores.Size = new Size(851, 168);
+            dgvProveedores.TabIndex = 35;
             // 
             // btnEliminar
             // 
@@ -256,6 +252,7 @@
             btnEliminar.TabIndex = 39;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // btnEditar
             // 
@@ -270,6 +267,7 @@
             btnEditar.TabIndex = 38;
             btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = false;
+            btnEditar.Click += btnEditar_Click;
             // 
             // btnGuardar
             // 
@@ -284,6 +282,7 @@
             btnGuardar.TabIndex = 37;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnNuevo
             // 
@@ -298,6 +297,37 @@
             btnNuevo.TabIndex = 36;
             btnNuevo.Text = "Nuevo";
             btnNuevo.UseVisualStyleBackColor = false;
+            btnNuevo.Click += btnNuevo_Click;
+            // 
+            // cmbEstado
+            // 
+            cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbEstado.FormattingEnabled = true;
+            cmbEstado.Items.AddRange(new object[] { "Activo", "Inactivo" });
+            cmbEstado.Location = new Point(590, 219);
+            cmbEstado.Name = "cmbEstado";
+            cmbEstado.Size = new Size(121, 23);
+            cmbEstado.TabIndex = 40;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Location = new Point(507, 224);
+            label8.Name = "label8";
+            label8.Size = new Size(51, 17);
+            label8.TabIndex = 41;
+            label8.Text = "Estado:";
+            // 
+            // cmbRuc
+            // 
+            cmbRuc.FormattingEnabled = true;
+            cmbRuc.Location = new Point(133, 102);
+            cmbRuc.Name = "cmbRuc";
+            cmbRuc.Size = new Size(165, 23);
+            cmbRuc.TabIndex = 42;
+            cmbRuc.SelectedIndexChanged += cmbRuc_SelectedIndexChanged;
+            cmbRuc.Leave += cmbRuc_SelectedIndexChanged;
             // 
             // ProveedoresForm
             // 
@@ -305,11 +335,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(884, 461);
+            Controls.Add(cmbRuc);
+            Controls.Add(label8);
+            Controls.Add(cmbEstado);
             Controls.Add(btnEliminar);
             Controls.Add(btnEditar);
             Controls.Add(btnGuardar);
             Controls.Add(btnNuevo);
-            Controls.Add(dgvClientes);
+            Controls.Add(dgvProveedores);
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -327,18 +360,16 @@
             Controls.Add(txtTelefono);
             Controls.Add(txtContacto);
             Controls.Add(txtRazonSocial);
-            Controls.Add(txtRuc);
             Name = "ProveedoresForm";
-            Text = "w ";
+            Text = "Proveedores";
+            Load += ProveedoresForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgvClientes).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProveedores).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private TextBox txtRuc;
         private TextBox txtRazonSocial;
         private TextBox txtContacto;
         private TextBox txtTelefono;
@@ -356,10 +387,13 @@
         private Label label5;
         private Label label6;
         private Label label7;
-        private DataGridView dgvClientes;
+        private DataGridView dgvProveedores;
         private Button btnEliminar;
         private Button btnEditar;
         private Button btnGuardar;
         private Button btnNuevo;
+        private ComboBox cmbEstado;
+        private Label label8;
+        private ComboBox cmbRuc;
     }
 }

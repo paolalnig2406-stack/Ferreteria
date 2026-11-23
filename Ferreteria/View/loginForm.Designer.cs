@@ -33,13 +33,13 @@
             pictureBox1 = new PictureBox();
             panel2 = new Panel();
             button2 = new Button();
-            button1 = new Button();
+            btnIniciarSesion = new Button();
             panel4 = new Panel();
-            pictureBox5 = new PictureBox();
-            textBox2 = new TextBox();
+            pbMostrarContrasena = new PictureBox();
+            txtcontrasena = new TextBox();
             pictureBox4 = new PictureBox();
             panel3 = new Panel();
-            textBox1 = new TextBox();
+            txtUsuario = new TextBox();
             pictureBox3 = new PictureBox();
             label2 = new Label();
             label1 = new Label();
@@ -48,7 +48,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
             panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbMostrarContrasena).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -79,7 +79,7 @@
             // 
             panel2.BackColor = Color.White;
             panel2.Controls.Add(button2);
-            panel2.Controls.Add(button1);
+            panel2.Controls.Add(btnIniciarSesion);
             panel2.Controls.Add(panel4);
             panel2.Controls.Add(panel3);
             panel2.Controls.Add(label2);
@@ -103,54 +103,55 @@
             button2.TabIndex = 6;
             button2.Text = "Salir";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
-            // button1
+            // btnIniciarSesion
             // 
-            button1.BackColor = Color.DodgerBlue;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(30, 223);
-            button1.Name = "button1";
-            button1.Size = new Size(260, 38);
-            button1.TabIndex = 5;
-            button1.Text = "Iniciar sesión";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            btnIniciarSesion.BackColor = Color.DodgerBlue;
+            btnIniciarSesion.FlatAppearance.BorderSize = 0;
+            btnIniciarSesion.FlatStyle = FlatStyle.Flat;
+            btnIniciarSesion.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnIniciarSesion.ForeColor = Color.White;
+            btnIniciarSesion.Location = new Point(30, 223);
+            btnIniciarSesion.Name = "btnIniciarSesion";
+            btnIniciarSesion.Size = new Size(260, 38);
+            btnIniciarSesion.TabIndex = 5;
+            btnIniciarSesion.Text = "Iniciar sesión";
+            btnIniciarSesion.UseVisualStyleBackColor = false;
+            btnIniciarSesion.Click += btnIniciarSesion_Click;
             // 
             // panel4
             // 
             panel4.BorderStyle = BorderStyle.FixedSingle;
-            panel4.Controls.Add(pictureBox5);
-            panel4.Controls.Add(textBox2);
+            panel4.Controls.Add(pbMostrarContrasena);
+            panel4.Controls.Add(txtcontrasena);
             panel4.Controls.Add(pictureBox4);
             panel4.Location = new Point(30, 182);
             panel4.Name = "panel4";
             panel4.Size = new Size(260, 35);
             panel4.TabIndex = 4;
+            panel4.Paint += panel4_Paint;
             // 
-            // pictureBox5
+            // pbMostrarContrasena
             // 
-            pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
-            pictureBox5.Location = new Point(225, 1);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(30, 30);
-            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox5.TabIndex = 2;
-            pictureBox5.TabStop = false;
-            pictureBox5.Click += pictureBox5_Click;
+            pbMostrarContrasena.Image = (Image)resources.GetObject("pbMostrarContrasena.Image");
+            pbMostrarContrasena.Location = new Point(225, 1);
+            pbMostrarContrasena.Name = "pbMostrarContrasena";
+            pbMostrarContrasena.Size = new Size(30, 30);
+            pbMostrarContrasena.SizeMode = PictureBoxSizeMode.Zoom;
+            pbMostrarContrasena.TabIndex = 2;
+            pbMostrarContrasena.TabStop = false;
+            pbMostrarContrasena.Click += pictureBox5_Click;
             // 
-            // textBox2
+            // txtcontrasena
             // 
-            textBox2.BorderStyle = BorderStyle.None;
-            textBox2.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox2.Location = new Point(41, 4);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(100, 20);
-            textBox2.TabIndex = 1;
-            textBox2.Text = "Contraseña";
-            textBox2.UseSystemPasswordChar = true;
+            txtcontrasena.BorderStyle = BorderStyle.None;
+            txtcontrasena.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtcontrasena.Location = new Point(41, 4);
+            txtcontrasena.Name = "txtcontrasena";
+            txtcontrasena.Size = new Size(100, 20);
+            txtcontrasena.TabIndex = 1;
+            txtcontrasena.UseSystemPasswordChar = true;
             // 
             // pictureBox4
             // 
@@ -165,22 +166,22 @@
             // panel3
             // 
             panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Controls.Add(textBox1);
+            panel3.Controls.Add(txtUsuario);
             panel3.Controls.Add(pictureBox3);
             panel3.Location = new Point(30, 141);
             panel3.Name = "panel3";
             panel3.Size = new Size(260, 35);
             panel3.TabIndex = 3;
             // 
-            // textBox1
+            // txtUsuario
             // 
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(40, 4);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(100, 20);
-            textBox1.TabIndex = 1;
-            textBox1.Text = "Usuario";
+            txtUsuario.BorderStyle = BorderStyle.None;
+            txtUsuario.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtUsuario.Location = new Point(39, 10);
+            txtUsuario.Name = "txtUsuario";
+            txtUsuario.Size = new Size(100, 20);
+            txtUsuario.TabIndex = 1;
+            txtUsuario.Text = "Usuario";
             // 
             // pictureBox3
             // 
@@ -217,7 +218,7 @@
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(124, 3);
+            pictureBox2.Location = new Point(125, 3);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(93, 84);
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
@@ -234,13 +235,14 @@
             Name = "loginForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Sistema de Ferretería - Inicio";
+            Load += loginForm_Load;
             panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbMostrarContrasena).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
@@ -258,13 +260,13 @@
         private Label label1;
         private PictureBox pictureBox2;
         private Panel panel3;
-        private TextBox textBox1;
+        private TextBox txtUsuario;
         private PictureBox pictureBox3;
         private Panel panel4;
-        private TextBox textBox2;
+        private TextBox txtcontrasena;
         private PictureBox pictureBox4;
-        private Button button1;
-        private PictureBox pictureBox5;
+        private Button btnIniciarSesion;
+        private PictureBox pbMostrarContrasena;
         private Button button2;
     }
 }

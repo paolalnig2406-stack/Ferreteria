@@ -33,7 +33,7 @@
             labelClientes = new Label();
             btnBuscar = new Button();
             txtBuscar = new TextBox();
-            txtCategoria = new TextBox();
+            txtCodigo = new TextBox();
             label2 = new Label();
             label4 = new Label();
             label3 = new Label();
@@ -43,11 +43,11 @@
             btnEditar = new Button();
             btnGuardar = new Button();
             btnNuevo = new Button();
-            dgvClientes = new DataGridView();
-            comboBox1 = new ComboBox();
+            dgvCategorias = new DataGridView();
+            cmbEstado = new ComboBox();
             label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvCategorias).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -88,18 +88,18 @@
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(259, 23);
             txtBuscar.TabIndex = 31;
+            txtBuscar.TextChanged += txtBuscar_TextChanged_1;
             // 
-            // txtCategoria
+            // txtCodigo
             // 
-            txtCategoria.BackColor = Color.Gainsboro;
-            txtCategoria.BorderStyle = BorderStyle.FixedSingle;
-            txtCategoria.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtCategoria.Location = new Point(129, 83);
-            txtCategoria.Name = "txtCategoria";
-            txtCategoria.ReadOnly = true;
-            txtCategoria.Size = new Size(157, 25);
-            txtCategoria.TabIndex = 34;
-            txtCategoria.TextChanged += txtCodigo_TextChanged;
+            txtCodigo.BackColor = Color.Gainsboro;
+            txtCodigo.BorderStyle = BorderStyle.FixedSingle;
+            txtCodigo.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtCodigo.Location = new Point(129, 83);
+            txtCodigo.Name = "txtCodigo";
+            txtCodigo.ReadOnly = true;
+            txtCodigo.Size = new Size(157, 25);
+            txtCodigo.TabIndex = 34;
             // 
             // label2
             // 
@@ -176,6 +176,7 @@
             btnEditar.TabIndex = 41;
             btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = false;
+            btnEditar.Click += btnEditar_Click_1;
             // 
             // btnGuardar
             // 
@@ -190,6 +191,7 @@
             btnGuardar.TabIndex = 40;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click_1;
             // 
             // btnNuevo
             // 
@@ -204,27 +206,28 @@
             btnNuevo.TabIndex = 39;
             btnNuevo.Text = "Nuevo";
             btnNuevo.UseVisualStyleBackColor = false;
+            btnNuevo.Click += btnNuevo_Click_1;
             // 
-            // dgvClientes
+            // dgvCategorias
             // 
-            dgvClientes.AllowUserToAddRows = false;
-            dgvClientes.AllowUserToDeleteRows = false;
-            dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvClientes.Location = new Point(2, 262);
-            dgvClientes.Name = "dgvClientes";
-            dgvClientes.ReadOnly = true;
-            dgvClientes.Size = new Size(851, 187);
-            dgvClientes.TabIndex = 43;
+            dgvCategorias.AllowUserToAddRows = false;
+            dgvCategorias.AllowUserToDeleteRows = false;
+            dgvCategorias.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvCategorias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCategorias.Location = new Point(2, 262);
+            dgvCategorias.Name = "dgvCategorias";
+            dgvCategorias.ReadOnly = true;
+            dgvCategorias.Size = new Size(851, 187);
+            dgvCategorias.TabIndex = 43;
             // 
-            // comboBox1
+            // cmbEstado
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Activo", "Inactivo" });
-            comboBox1.Location = new Point(129, 221);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
-            comboBox1.TabIndex = 44;
+            cmbEstado.FormattingEnabled = true;
+            cmbEstado.Items.AddRange(new object[] { "Activo", "Inactivo" });
+            cmbEstado.Location = new Point(129, 221);
+            cmbEstado.Name = "cmbEstado";
+            cmbEstado.Size = new Size(121, 23);
+            cmbEstado.TabIndex = 44;
             // 
             // label1
             // 
@@ -243,8 +246,8 @@
             BackColor = Color.White;
             ClientSize = new Size(884, 461);
             Controls.Add(label1);
-            Controls.Add(comboBox1);
-            Controls.Add(dgvClientes);
+            Controls.Add(cmbEstado);
+            Controls.Add(dgvCategorias);
             Controls.Add(btnEliminar);
             Controls.Add(btnEditar);
             Controls.Add(btnGuardar);
@@ -253,17 +256,17 @@
             Controls.Add(label3);
             Controls.Add(txtDescripcion);
             Controls.Add(txtNombre);
-            Controls.Add(txtCategoria);
+            Controls.Add(txtCodigo);
             Controls.Add(label2);
             Controls.Add(btnBuscar);
             Controls.Add(txtBuscar);
             Controls.Add(pictureBox1);
             Controls.Add(labelClientes);
             Name = "categoriaForm";
-            Text = "categoriaForm";
+            Text = "Categoria";
             Load += categoriaForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgvClientes).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvCategorias).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -274,7 +277,7 @@
         private Label labelClientes;
         private Button btnBuscar;
         private TextBox txtBuscar;
-        private TextBox txtCategoria;
+        private TextBox txtCodigo;
         private Label label2;
         private Label label4;
         private Label label3;
@@ -284,8 +287,8 @@
         private Button btnEditar;
         private Button btnGuardar;
         private Button btnNuevo;
-        private DataGridView dgvClientes;
-        private ComboBox comboBox1;
+        private DataGridView dgvCategorias;
+        private ComboBox cmbEstado;
         private Label label1;
     }
 }

@@ -116,7 +116,9 @@ namespace Ferreteria.View
         }
         private void clienteForm_Load(object sender, EventArgs e)
         {
-            MostrarClientes();
+            CargarDniRucExistentes(); // <- ESTA LÍNEA SE ENCARGA DE TRAER LOS DOCUMENTOS
+            MostrarClientes();        // Tu función para rellenar la tabla inferior
+            LimpiarCampos();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -167,7 +169,7 @@ namespace Ferreteria.View
         private void LimpiarCampos()
         {
             txtCodigo.Clear();
-            txtDniRuc.Clear();
+           // txtDniRuc.Clear();
             txtNombres.Clear();
             txtApellidos.Clear();
             txtTelefono.Clear();
@@ -354,6 +356,151 @@ namespace Ferreteria.View
             }
         }
 
+        private void txtDniRuc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        
+            string documento = txtDniRuc.Text.Trim();
+
+            string miConexionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Ferreteria;Integrated Security=True;Encrypt=False;";
+
+            if (string.IsNullOrEmpty(documento))
+            {
+                MostrarClientes();
+                return;
+            }
+
+            // PASO A: FILTRAR TU DATAGRIDVIEW ACTUAL DE CLIENTES
+            string queryFiltro = @"SELECT id_cliente, dni_ruc, nombre_razon_social, apellidos, telefono, direccion, correo 
+                           FROM dbo.clientes 
+                           WHERE dni_ruc LIKE @doc";
+
+            using (SqlConnection conexion = new SqlConnection(miConexionString))
+            {
+                try
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(queryFiltro, conexion);
+                    adapter.SelectCommand.Parameters.AddWithValue("@doc", documento + "%");
+                    DataTable tabla = new DataTable();
+                    adapter.Fill(tabla);
+                    dgvClientes.DataSource = tabla;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Filtro visual: " + ex.Message);
+                }
+            }
+
+            // PASO B: INTENTAR AUTOCOMPLETAR DESDE CLIENTES
+            string queryClienteExacto = @"SELECT id_cliente, nombre_razon_social, apellidos, telefono, direccion, correo 
+                                   FROM dbo.clientes WHERE dni_ruc = @docExacto";
+
+            using (SqlConnection conexion = new SqlConnection(miConexionString))
+            {
+                try
+                {
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand(queryClienteExacto, conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@docExacto", documento);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txtCodigo.Text = reader["id_cliente"].ToString();
+                                txtNombres.Text = reader["nombre_razon_social"].ToString();
+                                txtApellidos.Text = reader["apellidos"].ToString();
+                                txtTelefono.Text = reader["telefono"].ToString();
+                                txtDireccion.Text = reader["direccion"].ToString();
+                                txtCorreo.Text = reader["correo"].ToString();
+
+                                txtDniRuc.BackColor = Color.LightGreen; // Cliente encontrado
+                                return; // Salimos de la función ya que se autocompletó con éxito
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex.Message); }
+            }
+
+            // PASO C: SI NO ERA CLIENTE, BUSCAR E AUTOCOMPLETAR DESDE PROVEEDORES
+            string queryProveedorExacto = @"SELECT id_proveedor, razon_social, telefono, direccion, correo 
+                                     FROM dbo.proveedores WHERE ruc = @docExacto";
+
+            using (SqlConnection conexion = new SqlConnection(miConexionString))
+            {
+                try
+                {
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand(queryProveedorExacto, conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@docExacto", documento);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txtCodigo.Text = reader["id_proveedor"].ToString();
+                                txtNombres.Text = reader["razon_social"].ToString();
+                                txtApellidos.Text = "PROVEEDOR REGISTRADO"; // Marcador visual para el campo apellido
+                                txtTelefono.Text = reader["telefono"].ToString();
+                                txtDireccion.Text = reader["direccion"].ToString();
+                                txtCorreo.Text = reader["correo"].ToString();
+
+                                txtDniRuc.BackColor = Color.LightCyan; // Color diferente para distinguir que viene de proveedores
+                            }
+                            else
+                            {
+                                txtDniRuc.BackColor = Color.White; // No existe en ningún lado
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex.Message); }
+            }
+        }
+
+      private void CargarDniRucExistentes()
+        {
+            string miConexionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Ferreteria;Integrated Security=True;Encrypt=False;";
+
+            // Usamos UNION para traer de manera única los documentos de clientes y proveedores
+            string query = @"SELECT dni_ruc FROM dbo.clientes 
+                     UNION 
+                     SELECT ruc FROM dbo.proveedores";
+
+            using (SqlConnection conexion = new SqlConnection(miConexionString))
+            {
+                try
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conexion);
+                    DataTable tabla = new DataTable();
+                    adapter.Fill(tabla);
+
+                    // Desvinculamos temporalmente el evento para evitar errores en la carga inicial
+                    txtDniRuc.TextChanged -= txtDniRuc_SelectedIndexChanged;
+
+                    txtDniRuc.DataSource = tabla;
+                    txtDniRuc.DisplayMember = "dni_ruc";
+                    txtDniRuc.ValueMember = "dni_ruc";
+
+                    // === ESTO SOLUCIONA LO DEL NÚMERO 9 (MINIMIZAR LA LISTA EN TIEMPO REAL) ===
+                    txtDniRuc.DropDownStyle = ComboBoxStyle.DropDown;
+                    txtDniRuc.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    txtDniRuc.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+                    txtDniRuc.SelectedIndex = -1;
+                    txtDniRuc.Text = "";
+
+                    // Volvemos a activar el evento
+                    txtDniRuc.TextChanged += txtDniRuc_SelectedIndexChanged;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar el listado de documentos unificado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
 
     }
+
 }
